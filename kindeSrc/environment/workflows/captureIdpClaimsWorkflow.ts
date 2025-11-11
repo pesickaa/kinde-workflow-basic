@@ -55,6 +55,7 @@ export const workflowSettings: WorkflowSettings = {
   bindings: {
     "kinde.env": {},
     url: {},
+    "kinde.mfa": {},
   },
 };
 
@@ -100,7 +101,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
       },
     });
 
-    propertyExists = (propertiesResponse.properties || []).some(
+    propertyExists = (propertiesResponse.data.properties || []).some(
       (prop: any) => prop.key === IDP_CLAIMS_PROPERTY_KEY
     );
   } catch (error) {
@@ -119,7 +120,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
           description: "All claims from the identity provider stored as JSON",
           type: "multi_line_text",
           context: "usr",
-          is_private: false, // Can be included in tokens if needed
+          is_private: "false", // Can be included in tokens if needed
           category_id: PROPERTY_CATEGORY_ID,
         },
       });
@@ -187,9 +188,9 @@ export default async function captureIdpClaimsWorkflow(event: any) {
     await kindeAPI.patch({
       endpoint: `users/${userId}/properties`,
       params: {
-        properties: {
+        properties: JSON.stringify({
           [IDP_CLAIMS_PROPERTY_KEY]: claimsJson,
-        },
+        }),
       },
     });
 
