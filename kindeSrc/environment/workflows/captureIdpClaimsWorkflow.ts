@@ -86,7 +86,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
 
   // CONFIGURATION: Update this with your property category ID
   // Find your category ID in: Settings → Properties → Categories
-  const PROPERTY_CATEGORY_ID = "Add the category ID here"; // TODO: Replace with your category ID
+  const PROPERTY_CATEGORY_ID = "cat_019a726f9081c669edb803d1970ea19b"; // TODO: Replace with your category ID
   const IDP_CLAIMS_PROPERTY_KEY = "idp_claims";
 
   // Check if the idp_claims property exists, create it if not
