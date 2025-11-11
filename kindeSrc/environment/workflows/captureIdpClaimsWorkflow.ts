@@ -55,7 +55,6 @@ export const workflowSettings: WorkflowSettings = {
   bindings: {
     "kinde.env": {},
     url: {},
-    "kinde.mfa": {},
   },
 };
 
@@ -87,7 +86,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
 
   // CONFIGURATION: Update this with your property category ID
   // Find your category ID in: Settings → Properties → Categories
-  const PROPERTY_CATEGORY_ID = "cat_019a726f9081c669edb803d1970ea19b"; // TODO: Replace with your category ID
+  const PROPERTY_CATEGORY_ID = "Add the category ID here"; // TODO: Replace with your category ID
   const IDP_CLAIMS_PROPERTY_KEY = "idp_claims";
 
   // Check if the idp_claims property exists, create it if not
@@ -101,7 +100,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
       },
     });
 
-    propertyExists = (propertiesResponse.data.properties || []).some(
+    propertyExists = (propertiesResponse.properties || []).some(
       (prop: any) => prop.key === IDP_CLAIMS_PROPERTY_KEY
     );
   } catch (error) {
@@ -120,7 +119,7 @@ export default async function captureIdpClaimsWorkflow(event: any) {
           description: "All claims from the identity provider stored as JSON",
           type: "multi_line_text",
           context: "usr",
-          is_private: "false", // Can be included in tokens if needed
+          is_private: false, // Can be included in tokens if needed
           category_id: PROPERTY_CATEGORY_ID,
         },
       });
@@ -188,9 +187,9 @@ export default async function captureIdpClaimsWorkflow(event: any) {
     await kindeAPI.patch({
       endpoint: `users/${userId}/properties`,
       params: {
-        properties: JSON.stringify({
+        properties: {
           [IDP_CLAIMS_PROPERTY_KEY]: claimsJson,
-        }),
+        },
       },
     });
 

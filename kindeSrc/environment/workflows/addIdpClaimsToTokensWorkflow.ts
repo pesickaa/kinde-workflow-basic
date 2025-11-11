@@ -1,5 +1,5 @@
 import {
-  onUserTokenGeneratedEvent,
+  onTokensGenerationEvent,
   WorkflowSettings,
   WorkflowTrigger,
   accessTokenCustomClaims,
@@ -57,22 +57,23 @@ export const workflowSettings: WorkflowSettings = {
     action: "stop",
   },
   bindings: {
-    "kinde.accessToken": {},
+    "kinde.accessToken": {
+      audience: [],
+    },
     "kinde.idToken": {},
     "kinde.env": {},
     url: {},
-    "kinde.mfa": {},
   },
 };
 
 export default async function handleTokensGeneration(
-  event: onUserTokenGeneratedEvent
+  event: onTokensGenerationEvent
 ) {
-  // Get user ID from the event context (TokensGeneration doesn't have `user` property directly)
-  const userId = event.context?.user?.id;
+  // Get user ID from the event
+  const userId = event.user?.id || event.context?.user?.id;
 
   if (!userId) {
-    console.error("User ID is missing from event context");
+    console.error("User ID is missing from event");
     return;
   }
 
@@ -88,7 +89,8 @@ export default async function handleTokensGeneration(
     });
 
     // The response structure is: { data: { properties: [...] } }
-    const properties = propertiesResponse.data.properties;
+    const properties =
+      propertiesResponse?.data?.properties || propertiesResponse?.properties;
 
     // Convert properties array to a key-value object
     if (properties && Array.isArray(properties)) {
