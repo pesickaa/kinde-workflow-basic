@@ -14,11 +14,11 @@ import {
   getKindeRegisterUrl,
 } from "@kinde/infrastructure";
 
-const Layout = async ({ request, context }) => {
+const Layout = async ({ request, context }: { request: any; context: any }) => {
   return (
     <html lang={request.locale.lang} dir={request.locale.isRtl ? "rtl" : "ltr"}>
       <head>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="noindex" />
         <meta name="csrf-token" content={getKindeCSRF()} />
@@ -73,23 +73,23 @@ const Layout = async ({ request, context }) => {
         </style>
       </head>
       <body>
-        <div data-kinde-root="/admin" class="c-container">
-          <header class="c-header">
+        <div data-kinde-root="/admin" className="c-container">
+          <header className="c-header">
             <img src={getLogoUrl()} alt={context.widget.content.logo_alt} />
             <p>SilvaethArt Custom header</p>
           </header>
           <main>
-            <div class="c-widget">
+            <div className="c-widget">
               <h1>{context.widget.content.heading}</h1>
               <p>{context.widget.content.description}</p>
               <div>{getKindeWidget()}</div>
             </div>
           </main>
-          <footer class="c-footer">
-            <p class="c-no-account-link">
+          <footer className="c-footer">
+            <p className="c-no-account-link">
               No account? <a href={getKindeRegisterUrl()}>Sign up for free</a>
             </p>
-            <ul class="c-footer-links">
+            <ul className="c-footer-links">
               <li>
                 <a href="">Privacy</a>
               </li>
@@ -107,7 +107,7 @@ const Layout = async ({ request, context }) => {
   );
 };
 
-export default async function Page(event) {
+export default async function Page(event: any) {
   const page = await Layout({ ...event });
   return renderToString(page);
 }
