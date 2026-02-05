@@ -12,5 +12,5 @@ export const workflowSettings: WorkflowSettings = {
 
 // The workflow code to be executed when the event is triggered
 export default async function Workflow(event: onPostAuthenticationEvent) {
-  console.log("Hello world");
+  console.log("Hello world", event);
 }
